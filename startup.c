@@ -48,9 +48,9 @@ uint32_t vectors[] __attribute__((section(".isr_vectors"))) =
     (uint32_t)systick_handler,      /* 0x0000 003c */
 };
 
-void reset_render (void){
+void reset_handler (void){
     /*
-        Objetivos do reset render:
+        Objetivos do reset handler:
             - copiar os dados da seção .data para a memória SRAM
             - preencher com zero a seção .bss 
             - chamar a função main() (obs: esta função no main.c)

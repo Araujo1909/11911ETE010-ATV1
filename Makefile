@@ -1,14 +1,24 @@
+PROG = blinky
+
+
 CC = arm-none-eabi-gcc
+LD = arm-none-eabi-gcc
+CP = arm-none-eabi-objcopy
 CFLAGS = -c -mcpu=cortex-m4 -mthumb
+LFLAGS = -nostdlib -T stm32f411-rom.ld
 
-all: startup.o main.o
+OBJS = startup.o \
+main.o
 
-main.o: main.c
-	$(CC) $(CFLAGS) -o $@ $^
+all: $(PROG).elf
 
-startup.o: startup.c
-	$(CC) $(CFLAGS) -o $@ $^
+$(PROG).elf: $(OBJS)
+	$(LD) $(LFLAGS) $^ -o $@
+	$(CP) $(PROG).elf -O binary $(PROG).bin
 
-clean: 
-	rm -f *.o
+%.o: %.c
+	$(CC) -c $(CFLAGS) $< -o $@
+
+clean:
+	rm -f $(OBJS) $(PROG).elf
 
